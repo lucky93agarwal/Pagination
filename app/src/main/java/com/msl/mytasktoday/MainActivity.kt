@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.msl.mytasktoday.Adapter.PostAdapter
 import com.msl.mytasktoday.Viewmodel.PostViewModel
 import androidx.activity.viewModels
+import com.msl.mytasktoday.Activity.PostDetailActivity
+import com.msl.mytasktoday.Model.Post
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -38,13 +40,13 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun setupRecyclerView() {
-        adapter = PostAdapter { _ ->
-            // Handle item click here
+        val onItemClick: (Post) -> Unit = { post ->
             // For example, navigate to detail activity
-            /*val intent = Intent(this, PostDetailActivity::class.java)
-                intent.putExtra("postId", post.id)
-                startActivity(intent)*/
+            val intent = Intent(this@MainActivity, PostDetailActivity::class.java)
+            intent.putExtra("postId", post.id)
+            startActivity(intent)
         }
+        adapter = PostAdapter(onItemClick)
         findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = this@MainActivity.adapter
